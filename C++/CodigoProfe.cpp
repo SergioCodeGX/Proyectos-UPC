@@ -12,8 +12,7 @@ int obtenerOpcionMenu();
 void imprimirInstrucciones();
 void creditosDelJuego();
 void imprimirCarta(int x, int y, int carta, int palo);
-int determinarGanadorJugada(int cartaJugador1, int cartaJugador2);
-void determinarGanadorPartida(int puntajeFinal1, int puntajeFinal2);
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos);
 void simularJuego();
 
 
@@ -57,7 +56,7 @@ int generarValorAletoria(int minValor, int maxValor) {
 int obtenerOpcionMenu() {
     int opcion;
     do
-    {
+    {   
         cout << " \nMENU PRINCIPAL:" << endl;
         cout << "-----------------------------" << endl;
         cout << "| 1. Instrucciones          |" << endl;
@@ -299,80 +298,77 @@ void imprimirCarta(int x, int y, int carta, int palo)
     }
 }
 
-int determinarGanadorJugada(int cartaJugadorUno, int cartaJugadorDos){
-
-    if (cartaJugadorUno == cartaJugadorDos){
-        return 0;
-    }
-    else if (((cartaJugadorUno >= 1 && cartaJugadorUno <= 4 && cartaJugadorDos >= 9 && cartaJugadorDos <= 13) ||
-        (cartaJugadorUno >= 5 && cartaJugadorUno <= 8 && cartaJugadorDos >= 1 && cartaJugadorDos <= 4) ||
-        (cartaJugadorUno >= 9 && cartaJugadorUno <= 13 && cartaJugadorDos >= 5 && cartaJugadorDos <= 8))) {
-        return 1;
-    }
-    else {
-        return 2;
-    }
-}
-
-void determinarGanadorPartida(int puntajeFinal1, int puntajeFinal2)
-{
+int determinarGanador(int sumaCartasJugadorUno, int sumaCartasJugadorDos) {
     int ganador;
 
-    if (puntajeFinal1 > puntajeFinal2) {
-        cout << "El ganador es el jugador 1" << endl;
+    if (sumaCartasJugadorUno > sumaCartasJugadorDos) {
+        ganador = 1; // gano el jugador 1
     }
-    else if (puntajeFinal1 < puntajeFinal2) {
-        cout << "El ganador es el jugador 2" << endl;
+    else if (sumaCartasJugadorUno < sumaCartasJugadorDos) {
+        ganador = 2; // gano el jugador 2
     }
     else {
-        cout << "Han quedado empate" << endl;
+        ganador = -1; //empate
     }
+    return ganador;
 }
 
-void simularJuego(){
+void simularJuego() {
 
-    int numPartidas = 0;
     int partidasJugadas = 0;
     int puntajeJugadorUno = 0;
     int puntajeJugadorDos = 0;
     int paloAleatorio;
-    int cartaJugadorUno;
-    int cartaJugadorDos;
+    int cartaUnoJugUno, cartaDosJugUno, cartaTresJugUno;
+    int cartaUnoJugDos, cartaDosJugDos, cartaTresJugDos;
+    int sumaCartasJugadorUno, sumaCartasJugadorDos;
     int resultadoGanador;
     int ganadorEmpate;
     char deseaContinuar;
 
-    //Numero de partidas
-    do
-    {
-        cout << "Ingrese el numero de partidas (entre 5 y 10): ";
-        cin >> numPartidas;
-
-    } while (numPartidas < 5 || numPartidas > 10);
-
     while (true) {
 
-        cout << "(PIEDRA = 1,2,3,4 | PAPEL = 5,6,7,8 | TIJERA = 9,10,11,12,13)" << endl;
-        //Generando carta aleatoria jugador uno y dos"
-        cartaJugadorUno = generarValorAletoria(1, 13);
-        cartaJugadorDos = generarValorAletoria(1, 13);
+        //Generar tres cartas aleatorias para el jugador uno
+        cartaUnoJugUno = generarValorAletoria(1, 13);
+        cartaDosJugUno = generarValorAletoria(1, 13);
+        cartaTresJugUno = generarValorAletoria(1, 13);
+        sumaCartasJugadorUno = cartaUnoJugUno + cartaDosJugUno + cartaTresJugUno;
+
+
+        //Generar tres cartas aleatorias para el jugador dos
+        cartaUnoJugDos = generarValorAletoria(1, 13);
+        cartaDosJugDos = generarValorAletoria(1, 13);
+        cartaTresJugDos = generarValorAletoria(1, 13);
+        sumaCartasJugadorDos = cartaUnoJugDos + cartaDosJugDos + cartaTresJugDos;
+
 
         //Generar el palo aleatorio
         paloAleatorio = generarValorAletoria(3, 6);
 
         cout << endl;
 
-        //Imprimir las cartas en console del jugador uno y dos
-        imprimirCarta(10, 10, cartaJugadorUno, paloAleatorio);
-        imprimirCarta(10, 24, cartaJugadorDos, paloAleatorio);
+        //Imprimir las cartas en console del jugador uno
+        imprimirCarta(10, 10, cartaUnoJugUno, paloAleatorio);
+        imprimirCarta(30, 10, cartaUnoJugUno, paloAleatorio);
+        imprimirCarta(50, 10, cartaUnoJugUno, paloAleatorio);
+
+
+        //Imprimir las cartas en console del jugador dos
+        imprimirCarta(10, 24, cartaUnoJugDos, paloAleatorio);
+        imprimirCarta(30, 24, cartaUnoJugDos, paloAleatorio);
+        imprimirCarta(50, 24, cartaUnoJugDos, paloAleatorio);
 
         cout << endl;
 
         //Determinar el ganador de la partida
-        resultadoGanador = determinarGanadorJugada(cartaJugadorUno, cartaJugadorDos);
+        resultadoGanador = determinarGanador(sumaCartasJugadorUno, sumaCartasJugadorDos);
+
 
         //Imprimir datos de juego
         cout << "Nro de partida:" << partidasJugadas + 1 << endl;
+        cout << "Suma de cartas de jugador uno:" << sumaCartasJugadorUno << endl;
+        cout << "Suma de cartas de jugador dos:" << sumaCartasJugadorDos << endl;
+
 
         //Imprimir el ganador
         if (resultadoGanador == 1) {
@@ -413,6 +409,16 @@ void simularJuego(){
     cout << "Puntaje final" << endl;
     cout << "Jugador uno:" << puntajeJugadorUno << endl;
     cout << "Jugador dos:" << puntajeJugadorDos << endl;
-    
-    determinarGanadorPartida(puntajeJugadorUno, puntajeJugadorDos);
+
+
+    if (puntajeJugadorUno > puntajeJugadorDos) {
+        cout << "El jugador uno ha ganado el juego" << endl;
+    }
+    else if (puntajeJugadorUno < puntajeJugadorDos) {
+        cout << "El jugador dos ha ganado el juego" << endl;
+    }
+    else {
+        cout << "Empate, no hay un ganador claro" << endl;
+    }
+
 }
