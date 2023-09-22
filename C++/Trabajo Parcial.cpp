@@ -1,3 +1,5 @@
+//Juego JanKenCards GRUPO 7
+
 #include "pch.h"
 #include <iostream>
 #include <ctime>
@@ -7,8 +9,8 @@
 using namespace System;
 using namespace std;
 
-int generarValorAletoria(int minValor, int maxValor);
-int obtenerOpcionMenu();
+int generarValorAletorio(int minValor, int maxValor);
+int obtenerMenuOpciones();
 void imprimirInstrucciones();
 void creditosDelJuego();
 void imprimirCarta(int x, int y, int carta, int palo);
@@ -16,15 +18,18 @@ int determinarGanadorJugada(int cartaJugador1, int cartaJugador2);
 void determinarGanadorPartida(int puntajeFinal1, int puntajeFinal2);
 void simularJuego();
 
-
 int main()
-{
+{   
+    //Ajustar tamaño de la consola
+    Console::SetWindowSize(100, 40);
+
     srand(time(NULL));
     int opcion;
 
+    //Llamando a las funciones para imprimir el menu de opciones
     do
     {
-        opcion = obtenerOpcionMenu();
+        opcion = obtenerMenuOpciones();
 
         switch (opcion)
         {
@@ -43,18 +48,19 @@ int main()
 
         }
 
-
     } while (opcion != 4);
 
     system("pause>NULL");
     return 0;
 }
 
-int generarValorAletoria(int minValor, int maxValor) {
+//GENERAR VALOR ALEATORIO
+int generarValorAletorio(int minValor, int maxValor) {
     return minValor + rand() % (maxValor + 1 - minValor);
 }
 
-int obtenerOpcionMenu() {
+//MENU DE OPCIONES
+int obtenerMenuOpciones() {
     int opcion;
     do
     {
@@ -77,6 +83,7 @@ int obtenerOpcionMenu() {
     return opcion;
 }
 
+//INSTRUCCIONES DEL JUEGO
 void imprimirInstrucciones() {
     cout << "\nINSTRUCCIONES:" << endl;
     cout << "--------------------------------------------------------------" << endl;
@@ -99,8 +106,8 @@ void imprimirInstrucciones() {
     _getch();
 }
 
+//CREDITOS DEL JUEGO
 void creditosDelJuego() {
-
     cout << " \nCREDITOS: " << endl;
     cout << "---------------------------------------------------------" << endl;
     cout << "| Juego creado por:                                     |" << endl;
@@ -113,6 +120,7 @@ void creditosDelJuego() {
     _getch();
 }
 
+//IMPRIMIR CARTAS
 void imprimirCarta(int x, int y, int carta, int palo)
 {
     if (carta == 1)
@@ -299,9 +307,10 @@ void imprimirCarta(int x, int y, int carta, int palo)
     }
 }
 
-int determinarGanadorJugada(int cartaJugadorUno, int cartaJugadorDos){
+//FUNCION PARA DETERMINAR EL GANADOR DE CADA JUGADA
+int determinarGanadorJugada(int cartaJugadorUno, int cartaJugadorDos) {
 
-    if (cartaJugadorUno == cartaJugadorDos){
+    if (cartaJugadorUno == cartaJugadorDos) {
         return 0;
     }
     else if (((cartaJugadorUno >= 1 && cartaJugadorUno <= 4 && cartaJugadorDos >= 9 && cartaJugadorDos <= 13) ||
@@ -314,22 +323,24 @@ int determinarGanadorJugada(int cartaJugadorUno, int cartaJugadorDos){
     }
 }
 
+//FUNCION PARA DETERMINAR EL GANADOR DE LA PARTIDA
 void determinarGanadorPartida(int puntajeFinal1, int puntajeFinal2)
 {
     int ganador;
 
     if (puntajeFinal1 > puntajeFinal2) {
-        cout << "El ganador es el jugador 1" << endl;
+        cout << "\nEl ganador es el jugador 1" << endl;
     }
     else if (puntajeFinal1 < puntajeFinal2) {
-        cout << "El ganador es el jugador 2" << endl;
+        cout << "\nEl ganador es el jugador 2" << endl;
     }
     else {
-        cout << "Han quedado empate" << endl;
+        cout << "\nHan quedado empate" << endl;
     }
 }
 
-void simularJuego(){
+//FUNCION PARA SIMULAR EL JUEGO
+void simularJuego() {
 
     int numPartidas = 0;
     int partidasJugadas = 0;
@@ -342,51 +353,54 @@ void simularJuego(){
     int ganadorEmpate;
     char deseaContinuar;
 
-    //Numero de partidas
+    //PEDIR NUMERO DE PARTIDAS
     do
     {
-        cout << "Ingrese el numero de partidas (entre 5 y 10): ";
+        cout << " Ingrese el numero de partidas (entre 5 y 10): ";
         cin >> numPartidas;
 
     } while (numPartidas < 5 || numPartidas > 10);
 
+    //Determinar el valor de los numeros de las cartas
+    cout << "\n(PIEDRA = 1,2,3,4 | PAPEL = 5,6,7,8 | TIJERA = 9,10,11,12,13)" << endl;
+
     while (true) {
 
-        cout << "(PIEDRA = 1,2,3,4 | PAPEL = 5,6,7,8 | TIJERA = 9,10,11,12,13)" << endl;
-
         //Generando carta aleatoria jugador uno y dos"
-        cartaJugadorUno = generarValorAletoria(1, 13);
-        cartaJugadorDos = generarValorAletoria(1, 13);
+        cartaJugadorUno = generarValorAletorio(1, 13);
+        cartaJugadorDos = generarValorAletorio(1, 13);
+
 
         //Generar el palo aleatorio
-        paloAleatorio = generarValorAletoria(3, 6);
+        paloAleatorio = generarValorAletorio(3, 6);
 
-        cout << endl;
 
         //Imprimir las cartas en console del jugador uno y dos
-        imprimirCarta(10, 10, cartaJugadorUno, paloAleatorio);
-        imprimirCarta(10, 24, cartaJugadorDos, paloAleatorio);
-
+        imprimirCarta(10, 13, cartaJugadorUno, paloAleatorio);
+        imprimirCarta(10, 27, cartaJugadorDos, paloAleatorio);
+        cout << endl;
         cout << endl;
 
-        //Determinar el ganador de la partida
+
+        //Determinar el ganador de la jugada
         resultadoGanador = determinarGanadorJugada(cartaJugadorUno, cartaJugadorDos);
 
-        //Imprimir datos de juego
-        cout << "Nro de partida:" << partidasJugadas + 1 << endl;
+        //Imprimir numero de partida
+        cout << "Nro de partida: " << partidasJugadas + 1 << endl;
 
-        //Imprimir el ganador
+
+        //Imprimir el ganador de la jugada
         if (resultadoGanador == 1) {
-            cout << "Jugador 1 gana la partida" << endl;
+            cout << "Jugador 1 gana la partida." << endl;
             puntajeJugadorUno += 100;
         }
         else if (resultadoGanador == 2) {
-            cout << "Jugador 2 gana la partida" << endl;
+            cout << "Jugador 2 gana la partida." << endl;
             puntajeJugadorDos += 100;
         }
         else {
-            cout << "Empate en esta partida. Se decide al azar el ganador " << endl;
-            ganadorEmpate = generarValorAletoria(1, 2);
+            cout << "Empate en esta partida. Se decide al azar el ganador." << endl;
+            ganadorEmpate = generarValorAletorio(1, 2);
             if (ganadorEmpate == 1) {
                 cout << "Jugador 1 gana la partida" << endl;
                 puntajeJugadorUno += 50;
@@ -399,22 +413,27 @@ void simularJuego(){
 
         partidasJugadas++;
 
+        //LA PARTIDA TERMINA CUANDO SE HAYAN JUGADO EL NUMERO DE PARTIDAS INDICADAS
+        if (partidasJugadas == numPartidas) {
+			break;
+		}
 
-        cout << "Deseas continuar jugando, ingresa S para continuar o cualquier tecla para salir" << endl;
+        cout << "(S) PARA CONTINUAR (N) PARA SALIR: " << endl;
         cin >> deseaContinuar;
         deseaContinuar = toupper(deseaContinuar);
-
 
         if (deseaContinuar != 'S') {
             break;
         }
 
-    }// fin del while
+    }//FIN DEL BUCLE WHILE
 
-    cout << "Puntaje final" << endl;
-    cout << "Jugador uno:" << puntajeJugadorUno << endl;
-    cout << "Jugador dos:" << puntajeJugadorDos << endl;
-    
+
+    //Imprimir puntaje final
+    cout << "\nPUNTAJE FINAL" << endl;
+    cout << "\nJugador uno: " << puntajeJugadorUno << endl;
+    cout << "Jugador dos: " << puntajeJugadorDos << endl;
+
     //Determinar el ganador de la partida
     determinarGanadorPartida(puntajeJugadorUno, puntajeJugadorDos);
 }
