@@ -353,6 +353,7 @@ void simularJuego(){
     while (true) {
 
         cout << "(PIEDRA = 1,2,3,4 | PAPEL = 5,6,7,8 | TIJERA = 9,10,11,12,13)" << endl;
+
         //Generando carta aleatoria jugador uno y dos"
         cartaJugadorUno = generarValorAletoria(1, 13);
         cartaJugadorDos = generarValorAletoria(1, 13);
@@ -384,7 +385,7 @@ void simularJuego(){
             puntajeJugadorDos += 100;
         }
         else {
-            cout << "Empate en esta partidad. Se decide al azar el ganador " << endl;
+            cout << "Empate en esta partida. Se decide al azar el ganador " << endl;
             ganadorEmpate = generarValorAletoria(1, 2);
             if (ganadorEmpate == 1) {
                 cout << "Jugador 1 gana la partida" << endl;
@@ -414,5 +415,6 @@ void simularJuego(){
     cout << "Jugador uno:" << puntajeJugadorUno << endl;
     cout << "Jugador dos:" << puntajeJugadorDos << endl;
     
+    //Determinar el ganador de la partida
     determinarGanadorPartida(puntajeJugadorUno, puntajeJugadorDos);
 }
