@@ -104,6 +104,7 @@ void imprimirInstrucciones() {
     cout << "--------------------------------------------------------------" << endl;
     cout << " Presione cualquier tecla para volver al menu principal" << endl;
     _getch();
+    system("cls");
 }
 
 //CREDITOS DEL JUEGO
@@ -118,6 +119,7 @@ void creditosDelJuego() {
     cout << "---------------------------------------------------------" << endl;
     cout << " Presione cualquier tecla para volver al menu principal" << endl;
     _getch();
+    system("cls");
 }
 
 //IMPRIMIR CARTAS
