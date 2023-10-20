@@ -1,41 +1,65 @@
+//Ejercicio 1
 #include <iostream>
-
 using namespace std;
 
-const int TAMANIO_ARREGLO = 5;
-
-void llenarArreglo(int arreglo[], int tamanio) {
-    for (int i = 0; i < tamanio; i++) {
-        cout << "Ingrese el elemento " << i + 1 << ": ";
-        cin >> arreglo[i];
-    }
+// Función para crear un arreglo dinámico
+void crearArreglo(int *&arr, int tamano) {
+	arr = new int[tamano];
 }
 
-void imprimirArreglo(int arreglo[], int tamanio) {
-    for (int i = 0; i < tamanio; i++) {
-        cout << arreglo[i] << " ";
-    }
-    cout << endl;
+// Función para ingresar números en el arreglo
+void ingresarNumeros(int *arr, int tamano) {
+	cout << "Ingrese los números uno por uno:" << endl;
+	for (int i = 0; i < tamano; i++) {
+    	cout << "Número " << i + 1 << ": ";
+    	cin >> arr[i];
+	}
 }
 
-int sumarArreglo(int arreglo[], int tamanio) {
-    int suma = 0;
-    for (int i = 0; i < tamanio; i++) {
-        suma += arreglo[i];
-    }
-    return suma;
+// Función para imprimir elementos únicos
+void imprimirElementosUnicos(int *arr, int tamano) {
+	// Crear un arreglo dinámico para realizar un seguimiento de elementos únicos
+	int *elementosUnicos = new int[tamano];
+	int elementosUnicosTamano = 0;
+
+	// Iterar a través del arreglo
+	for (int i = 0; i < tamano; i++) {
+    	bool esRepetido = false;
+    	// Verificar si el elemento ya se ha impreso
+    	for (int j = 0; j < elementosUnicosTamano; j++) {
+        	if (arr[i] == elementosUnicos[j]) {
+            	esRepetido = true;
+            	break;
+        	}
+    	}
+
+    	// Si el elemento no es repetido, imprimirlo y agregarlo al arreglo de elementos únicos
+    	if (!esRepetido) {
+        	cout << "Elemento único: " << arr[i] << endl;
+        	elementosUnicos[elementosUnicosTamano] = arr[i];
+        	elementosUnicosTamano++;
+    	}
+	}
+
+	// Liberar la memoria del arreglo dinámico de elementos únicos
+	delete[] elementosUnicos;
 }
 
 int main() {
-    int miArreglo[TAMANIO_ARREGLO];
+	int tamano;
+	cout << "Ingrese la cantidad de números que desea ingresar: ";
+	cin >> tamano;
 
-    llenarArreglo(miArreglo, TAMANIO_ARREGLO);
+	int *numeros;
+	crearArreglo(numeros, tamano); // Llama a la función para crear el arreglo dinámico
 
-    cout << "El arreglo es: ";
-    imprimirArreglo(miArreglo, TAMANIO_ARREGLO);
+	ingresarNumeros(numeros, tamano); // Llama a la función para ingresar números en el arreglo
 
-    int suma = sumarArreglo(miArreglo, TAMANIO_ARREGLO);
-    cout << "La suma de los elementos del arreglo es: " << suma << endl;
+	cout << "Elementos únicos:" << endl;
+	imprimirElementosUnicos(numeros, tamano); // Llama a la función para imprimir elementos únicos
 
-    return 0;
+	// Liberar la memoria del arreglo dinámico principal
+	delete[] numeros;
+
+	return 0;
 }

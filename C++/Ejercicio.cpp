@@ -1,82 +1,65 @@
-#include<iostream>
+//Ejercicio 1
+#include <iostream>
 using namespace std;
 
-int leerNumeroClientes();
-void mostrarMenuOpciones();
-int leerCantidadVideoJuegos();
-int leerCantidadAccesorios();
-int leerCantidadTarjetas();
-float calcularMonto(int cantidadVideoJuegos, int cantidadAccesorios, int cantidadTarjetas);
-void reporteDeVentas(int uni_videojuegos, int uni_accesorios, int uni_tarjetas, float monto_total, int montoDescontado);
-
-int main(){
-
-    int cantidadVideoJuegos;
-    int cantidadAccesorios;
-    int cantidadTarjetas;
-    int contadorClientes = 0;
-    int contadorVideoJuegos = 0;
-    int contadorAccesorios = 0;
-    int contadorTarjetas = 0;
-    float montoTotal = 0;
-    int numeroClientes = leerNumeroClientes();
-
-    do
-    {
-       cout << "Cliente " << contadorClientes + 1 << endl;
-       cantidadVideoJuegos = leerCantidadVideoJuegos();
-       cantidadAccesorios = leerCantidadAccesorios();
-       cantidadTarjetas = leerCantidadTarjetas();
-       
-
-
-
-    } while (contadorClientes > numeroClientes);
-
-    return 0;
+// Función para crear un arreglo dinámico
+void crearArreglo(int *&arr, int tamano) {
+	arr = new int[tamano];
 }
 
-int leerNumeroClientes(){
-    int numeroClientes;
-    cout << "Ingrese la cantidad de clientes: ";
-    cin >> numeroClientes;
-    return numeroClientes;
+// Función para ingresar números en el arreglo
+void ingresarNumeros(int *arr, int tamano) {
+	cout << "Ingrese los números uno por uno:" << endl;
+	for (int i = 0; i < tamano; i++) {
+    	cout << "Número " << i + 1 << ": ";
+    	cin >> arr[i];
+	}
 }
 
-int leerCantidadVideoJuegos(int numeroClientes){
-    int cantidadVideoJuegos;
-    cout << "Ingrese la cantidad de videojuegos: ";
-    cin >> cantidadVideoJuegos;
-    return cantidadVideoJuegos;
+// Función para imprimir elementos únicos
+void imprimirElementosUnicos(int *arr, int tamano) {
+	// Crear un arreglo dinámico para realizar un seguimiento de elementos únicos
+	int *elementosUnicos = new int[tamano];
+	int elementosUnicosTamano = 0;
+
+	// Iterar a través del arreglo
+	for (int i = 0; i < tamano; i++) {
+    	bool esRepetido = false;
+    	// Verificar si el elemento ya se ha impreso
+    	for (int j = 0; j < elementosUnicosTamano; j++) {
+        	if (arr[i] == elementosUnicos[j]) {
+            	esRepetido = true;
+            	break;
+        	}
+    	}
+
+    	// Si el elemento no es repetido, imprimirlo y agregarlo al arreglo de elementos únicos
+    	if (!esRepetido) {
+        	cout << "Elemento único: " << arr[i] << endl;
+        	elementosUnicos[elementosUnicosTamano] = arr[i];
+        	elementosUnicosTamano++;
+    	}
+	}
+
+	// Liberar la memoria del arreglo dinámico de elementos únicos
+	delete[] elementosUnicos;
 }
 
-int leerCantidadAccesorios(int numeroClientes){
-    int cantidadAccesorios;
-    cout << "Unidades vendidas de Accesorios: ";
-    cin >> cantidadAccesorios;
-    return cantidadAccesorios;
-}
+int main() {
+	int tamano;
+	cout << "Ingrese la cantidad de números que desea ingresar: ";
+	cin >> tamano;
 
-int leerCantidadTarjetas(int numeroTarjetas){
-    int cantidadTarjetas;
-    cout << "Unidades vendidas de Tarjetas Visuales: ";
-    cin >> cantidadTarjetas;
-    return cantidadTarjetas;
-}
+	int *numeros;
+	crearArreglo(numeros, tamano); // Llama a la función para crear el arreglo dinámico
 
-float calcularMonto(int cantidadVideoJuegos, int cantidadAccesorios, int cantidadTarjetas){
-    float montoTotal;
-    float videoJuegos = 170.50;
-    float accesorios = 80.90;
-    float tarjetas = 50.00;
-    montoTotal = (cantidadVideoJuegos * 170.50) + (cantidadAccesorios * 80.90) + (cantidadTarjetas * 50.00);
-    return montoTotal;
-}
+	ingresarNumeros(numeros, tamano); // Llama a la función para ingresar números en el arreglo
 
-void reporteDeVentas(int uni_videojuegos, int uni_accesorios, int uni_tarjetas, float monto_total, int montoDescontado){
-    cout << "Total unidades de VideoJuegos: " << uni_videojuegos << endl;
-    cout << "Total unidades de accesorios: " << uni_accesorios << endl; 
-    cout << "Total unidades de tarjetas visuales: " << uni_tarjetas << endl;
-    cout << "Monto total facturado: " << monto_total << endl;
-    cout << "Monto descontado: " << montoDescontado << endl;
+	cout << "Elementos únicos:" << endl;
+	imprimirElementosUnicos(numeros, tamano); // Llama a la función para imprimir elementos únicos
+
+	// Liberar la memoria del arreglo dinámico principal
+	delete[] numeros;
+
+	return 0;
 }
